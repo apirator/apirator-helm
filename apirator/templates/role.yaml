@@ -1,0 +1,66 @@
+{{- if .Values.rbac.create }}
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "apirator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "apirator.labels" . | indent 4 }}
+rules:
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      - services
+      - services/finalizers
+      - events
+      - configmaps
+      - secrets
+      verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      - replicasets
+      verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    - apiGroups:
+      - apps
+      resourceNames:
+      - apirator
+      resources:
+      - deployments/finalizers
+      verbs:
+      - update
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      verbs:
+      - get
+    - apiGroups:
+      - apirator.io
+      resources:
+      - '*'
+      verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+{{- end }}      

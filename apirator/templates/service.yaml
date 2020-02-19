@@ -5,11 +5,12 @@ metadata:
   labels:
     {{- include "apirator.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  - name: metrics
+    port: 8383
+    protocol: TCP
+    targetPort: 8383
   selector:
-    {{- include "apirator.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "apirator.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  type: ClusterIP
