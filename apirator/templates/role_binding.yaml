@@ -3,12 +3,12 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     {{- include "apirator.labels" . | nindent 4 }}
-  name: {{ include "jaeger-operator.fullname" . }}
+  name: {{ include "apirator.fullname" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "jaeger-operator.fullname" . }}
+  name: {{ include "apirator.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "jaeger-operator.serviceAccountName" . }}
+    name: {{ include "apirator.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
